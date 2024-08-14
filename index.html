@@ -1,0 +1,226 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Independence Day Card</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: url('https://www.transparenttextures.com/patterns/45-degree-fabric-light.png');
+            animation: backgroundAnimation 15s linear infinite;
+        }
+        @keyframes backgroundAnimation {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 100%; }
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-in-out;
+        }
+        .card-custom {
+            background-color: #ffeb3b;
+            color: #2e7d32;
+            border: 2px solid #fff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transform: scale(0);
+            animation: popIn 0.5s forwards;
+        }
+        .card-custom h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .card-custom p {
+            font-size: 1.5rem;
+        }
+        .card-custom .flag {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 30px;
+            background: url('https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/1920px-Flag_of_India.svg.png') no-repeat center;
+            background-size: cover;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: flagWave 2s infinite ease-in-out;
+        }
+        .download-btn {
+            margin-top: 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .download-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+        }
+        .social-buttons {
+            margin-top: 20px;
+        }
+        .social-buttons a {
+            margin: 0 10px;
+            color: #fff;
+            font-size: 1.5rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        @keyframes flagWave {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            50% { transform: translateX(-50%) rotate(10deg); }
+            100% { transform: translateX(-50%) rotate(0deg); }
+        }
+        @keyframes confetti {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+        .confetti {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background-color: #ffeb3b;
+            border-radius: 50%;
+            animation: confetti 2s ease-out infinite;
+        }
+        .confetti:nth-child(2) { left: 40%; animation-duration: 2.5s; }
+        .confetti:nth-child(3) { left: 60%; animation-duration: 2.7s; }
+        .confetti:nth-child(4) { left: 30%; animation-duration: 3s; }
+        .confetti:nth-child(5) { left: 70%; animation-duration: 3.5s; }
+        .form-group {
+            animation: fadeIn 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    <div class="container">
+        <h1>Create Your Independence Day Card</h1>
+        <form id="cardForm">
+            <div class="form-group">
+                <label for="userName">Enter Your Name:</label>
+                <input type="text" id="userName" class="form-control" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+                <label for="customMessage">Enter a Custom Message:</label>
+                <input type="text" id="customMessage" class="form-control" placeholder="Your Custom Message" required>
+            </div>
+            <button type="button" class="btn btn-primary btn-block" onclick="generateCard()">Generate Card</button>
+        </form>
+        <div id="cardContainer" class="card-custom d-none">
+            <div class="flag"></div>
+            <h1>Happy Independence Day!</h1>
+            <p id="userGreeting"></p>
+            <button class="download-btn" onclick="downloadCard()">Download Card</button>
+            <div class="social-buttons">
+                <a href="#" id="facebookShare"><i class="fab fa-facebook"></i></a>
+                <a href="#" id="twitterShare"><i class="fab fa-twitter"></i></a>
+                <a href="#" id="whatsappShare"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <div id="confettiContainer">
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- FontAwesome for social media icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <!-- html2canvas library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script>
+        function generateCard() {
+            var userName = document.getElementById('userName').value;
+            var customMessage = document.getElementById('customMessage').value;
+            if (userName && customMessage) {
+                document.getElementById('userGreeting').textContent = `Dear ${userName}, ${customMessage}`;
+                document.getElementById('cardContainer').classList.remove('d-none');
+                triggerConfetti();
+            }
+        }
+
+        function downloadCard() {
+            const card = document.getElementById('cardContainer');
+            html2canvas(card).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'IndependenceDayCard.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        function triggerConfetti() {
+            const confettiContainer = document.getElementById('confettiContainer');
+            for (let i = 0; i < 5; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confettiContainer.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        // Social media sharing links
+        document.getElementById('facebookShare').onclick = function() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(document.getElementById('userGreeting').textContent);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
+        };
+
+        document.getElementById('twitterShare').onclick = function() {
+            const text = encodeURIComponent(document.getElementById('userGreeting').textContent);
+            window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+        };
+
+        document.getElementById('whatsappShare').onclick = function() {
+            const text = encodeURIComponent(document.getElementById('userGreeting').textContent);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        };
+    </script>
+</body>
+</html>
